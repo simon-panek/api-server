@@ -45,7 +45,7 @@ mongoose.connect(process.env.MONGOOSE_URI, options);
 app.use(express.json()); //req.body json formatter
 app.use(logger); //logger middleware
 app.use(treeRoutes); //treeRoute module
-// app.use(foodRoutes); //foodRoute module
+app.use(foodRoutes); //foodRoute module
 
 app.get('/test', (req, res) => { //test route
   res.status(200).send('Surprisingly, this thing works!');
