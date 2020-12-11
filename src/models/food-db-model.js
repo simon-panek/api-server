@@ -5,9 +5,9 @@ const mongoose = require ('mongoose');
 //schema
 
 const foodSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  calories: {type: Number, required: true},
-  type: {type: String, uppercase: true, enum: ['Fruit', 'VEGETABLE', 'PROTEIN', 'CARB', 'SWEET']}
+  name: { type: String, required: false },
+  // calories: {type: Number, required: false},
+  // type: {type: String, uppercase: true, enum: ['Fruit', 'VEGETABLE', 'PROTEIN', 'CARB', 'SWEET']}
 });
 
 //export as a model

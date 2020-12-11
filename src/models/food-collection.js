@@ -1,10 +1,10 @@
 'use strict';
 
-const model = require('./food-model'); //import foodModel
+//const model = require('./food-db-model'); //import foodModel
 
 class FoodCollection { //create class
 
-  constructor(){ //set the key value pairs
+  constructor(model){ //set the key value pairs
     this.model = model;
   }
 
@@ -12,6 +12,7 @@ class FoodCollection { //create class
     if(_id) {
       return this.model.findOne({_id});
     } else {
+      console.log('inside get food-collection', _id);
       return this.model.find({});
     }
   }
