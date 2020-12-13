@@ -8,11 +8,6 @@ const food = new FoodCollection(FoodSchema);
 
 const router = express.Router();
 
-const mongoose = require('mongoose');
-
-const options = {userNewUrlParser: true, useUnifiedTopology: true};
-mongoose.connect(process.env.MONGOOSE_URI, options);
-
 //Routes
 
 router.get('/food', getFood);
@@ -26,16 +21,15 @@ router.delete('/food/:id', deleteFood);
 
 async function getFood (req, res) {
   console.log('inside getFood');
-  //const allFood = await food.get();
-  //console.log('Gathered all items', allFood);
+  console.log('Gathered all items');
   res.status(200).json(await food.get());
 }
 
 async function getOneFood (req, res) {
-  const id = parseInt(req.params.id);
-  const oneFood =  await food.get(id);
-  console.log('Retrieved one item', oneFood);
-  // res.status(200).json(oneFood);
+  console.log(req.params.id);
+  const id = req.params.id;
+  console.log('Retrieved one item ', id);
+  res.status(200).json(await food.get(id));
 }
 
 async function createFood (req, res) {
@@ -43,23 +37,21 @@ async function createFood (req, res) {
   // const newTree = await food.create(obj);
   console.log('Created a new item', req.body);
   res.status(200).json(await food.create(obj));
+  console.log('after create method run')
 }
 
 async function updateFood (req, res) {
   const id = req.params.id;
   const obj = req.body;
-  const updatedFood = await food.update(id, obj);
-  console.log('Updated record: ', updatedFood);
-  // res.status(200).send('It was updated ');
+  console.log('Updated record');
+  res.status(200).json(await food.update(id, obj));
 }
 
 async function deleteFood (req, res) {
   const id = req.params.id;
-  const deletedFood = await food.delete(id);
-  console.log('Item deleted: ', deletedFood)
-  // res.status(200).send('Chopped down tree');
+  console.log('Item deleted')
+  res.status(200).json(await food.delete(id));
 }
 
-mongoose.disconnect();
 
 module.exports = router;

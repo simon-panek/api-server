@@ -2,11 +2,10 @@
 
 require('dotenv').config();
 
-
 const express = require('express'); //bring in express
 const app = express(); //initialize express
 
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 //middleware
 
@@ -18,13 +17,13 @@ const foodRoutes = require ('./routes/food-routes.js'); //import foodRoutes
 const MONGOOSE_URI = process.env.MONGOOSE_URI;
 const PORT = process.env.PORT;
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  console.log('I am connected');
-});
-const options = {useNewUrlParser: true, useUnifiedTopology: true}
-mongoose.connect(process.env.MONGOOSE_URI, options);
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   console.log('I am connected');
+// });
+// const options = {useNewUrlParser: true, useUnifiedTopology: true}
+// mongoose.connect(process.env.MONGOOSE_URI, options);
 
 // const TreeDbModel = require('./models/tree-db-model');
 // const tree = new TreeDbModel();
