@@ -1,49 +1,52 @@
 'use strict'; 
 
-const express = require('express'); //bring in express
-const Tree = require ('../models/tree-model.js'); //bring in Tree model
-const tree = new Tree(); //instantiate new tree
+const express = require('express');
+// const Food = require ('../models/food-model.js');
+const TreeSchema = require ('../models/tree-db-model');
+const TreeCollection = require ('../models/item-collection.js');
+const tree = new TreeCollection(TreeSchema);
+const validator = require('../middleware/validator.js'); //import validator
 
-const router = express.Router(); //instantiate router
+const router = express.Router();
 
 //Routes
 
-router.get('/tree', getTree); //route to get all items
-router.get('/tree/:id', getOneTree); //to get one item by id
-router.post('/tree', createTree); //route to create an item
-router.put('/tree/:id', updateTree); //route to update an item by id
-router.delete('/tree/:id', deleteTree); //route to delete an item by id
+router.get('/tree', getTree);
+router.get('/tree/:id', getOneTree);
+router.post('/tree', validator, createTree);
+router.put('/tree/:id', validator, updateTree);
+router.delete('/tree/:id', deleteTree);
 
 //Route Handlers
 
-function getTree (req, res) { //get all items from db
-  const allTree = tree.get();
-  res.status(200).json(allTree);
+async function getTree (req, res) { //gets all items from db
+  console.log('Gathered all items');
+  res.status(200).json(await tree.get());
 }
 
-function getOneTree (req, res) { //get one item from db by id
-  const id = parseInt(req.params.id);
-  const oneTree = tree.get(id);
-  res.status(200).json(oneTree);
+async function getOneTree (req, res) { //gets one item from db by id
+  const id = req.params.id;
+  console.log('Retrieved one item ', id);
+  res.status(200).json(await tree.get(id));
 }
 
-function createTree (req, res) { //create item in db
+async function createTree (req, res) { //creates an item and stores to db
   const obj= req.body;
-  const newTree = tree.create(obj);
-  res.status(200).send('New item added.');
+  console.log('Created a new item', req.body);
+  res.status(200).json(await tree.create(obj));
 }
 
-function updateTree (req, res) { //update item in db
+async function updateTree (req, res) { //updates an item by id and stores to db
   const id = req.params.id;
   const obj = req.body;
-  const updatedTree = tree.update(id, obj);
-  res.status(200).send('It was updated ');
+  console.log('Updated record');
+  res.status(200).json(await tree.update(id, obj));
 }
 
-function deleteTree (req, res) { //delete item from db
+async function deleteTree (req, res) { //deletes and item by id
   const id = req.params.id;
-  const deleteTwoTree = tree.delete(id);
-  res.status(200).send('Chopped down tree');
+  console.log('Item deleted')
+  res.status(200).json(await tree.delete(id));
 }
 
-module.exports = router; //export to server.js
+module.exports = router;
