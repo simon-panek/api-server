@@ -3,50 +3,50 @@
 require('@code-fellows/supergoose');
 const { server } = require('../src/server.js');
 const supertest = require('supertest');
-const Food = require('../src/models/food-db-model.js');
-const food = new Food ();
+const Tree = require('../src/models/tree-db-model.js');
+const tree = new Tree ();
 const mockRequest = supertest(server);
 
 
-describe('food routes', () => {
-  it ('.get/food request should respond with a 200', () => {
+describe('tree routes', () => {
+  it ('.get/tree request should respond with a 200', () => {
     return mockRequest
-      .get('/food')
+      .get('/tree')
       .then (results => {
         expect(results.status).toBe(200)
       })
   })
 
-  it ('.get/food/1 should respond with a 200', () => {
+  it ('.get/tree/1 should respond with a 200', () => {
     return mockRequest
-      .post('/food?name=name')
-      .get('/food/1')
+      .post('/tree?name=name')
+      .get('/tree/1')
       .then (results => {
         expect(results.status).toBe(200)
       })
   })
 
-  it ('.post/food?name=name should respond with a 200', () => {
+  it ('.post/tree?name=name should respond with a 200', () => {
     return mockRequest
-      .post('/food?name=name')
+      .post('/tree?name=name')
       .then (results => {
         expect(results.status).toBe(200)
       })
   })
 
-  it ('.put/food/1?name=test should respond with a 200', () => {
+  it ('.put/tree/1?name=test should respond with a 200', () => {
     return mockRequest
-      .post('/food?name=name')
-      .put('/food/1?name=test')
+      .post('/tree?name=name')
+      .put('/tree/1?name=test')
       .then (results => {
         expect(results.status).toBe(200)
       })
   })
 
-  it ('delete/food/1 should respond with a 200', () => {
+  it ('delete/tree/1 should respond with a 200', () => {
     return mockRequest
-      .post('/food?name=name')
-      .delete('/food/1')
+      .post('/tree?name=name')
+      .delete('/tree/1')
       .then (results => {
         expect(results.status).toBe(200)
       })

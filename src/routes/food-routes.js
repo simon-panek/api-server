@@ -3,63 +3,50 @@
 const express = require('express');
 // const Food = require ('../models/food-model.js');
 const FoodSchema = require ('../models/food-db-model');
-const FoodCollection = require ('../models/food-collection.js');
+const FoodCollection = require ('../models/item-collection.js');
 const food = new FoodCollection(FoodSchema);
+const validator = require('../middleware/validator.js'); //import validator
 
 const router = express.Router();
-
-const mongoose = require('mongoose');
-
-const options = {userNewUrlParser: true, useUnifiedTopology: true};
-mongoose.connect(process.env.MONGOOSE_URI, options);
 
 //Routes
 
 router.get('/food', getFood);
 router.get('/food/:id', getOneFood);
-router.post('/food', createFood);
-router.put('/food/:id', updateFood);
+router.post('/food', validator, createFood);
+router.put('/food/:id', validator, updateFood);
 router.delete('/food/:id', deleteFood);
 
 //Route Handlers
 
-
-async function getFood (req, res) {
-  console.log('inside getFood');
-  //const allFood = await food.get();
-  //console.log('Gathered all items', allFood);
+async function getFood (req, res) { //gets all items from db
+  console.log('Gathered all items');
   res.status(200).json(await food.get());
 }
 
-async function getOneFood (req, res) {
-  const id = parseInt(req.params.id);
-  const oneFood =  await food.get(id);
-  console.log('Retrieved one item', oneFood);
-  // res.status(200).json(oneFood);
+async function getOneFood (req, res) { //gets one item from db by id
+  const id = req.params.id;
+  console.log('Retrieved one item ', id);
+  res.status(200).json(await food.get(id));
 }
 
-async function createFood (req, res) {
+async function createFood (req, res) { //creates an item and stores to db
   const obj= req.body;
-  // const newTree = await food.create(obj);
   console.log('Created a new item', req.body);
   res.status(200).json(await food.create(obj));
 }
 
-async function updateFood (req, res) {
+async function updateFood (req, res) { //updates an item by id and stores to db
   const id = req.params.id;
   const obj = req.body;
-  const updatedFood = await food.update(id, obj);
-  console.log('Updated record: ', updatedFood);
-  // res.status(200).send('It was updated ');
+  console.log('Updated record');
+  res.status(200).json(await food.update(id, obj));
 }
 
-async function deleteFood (req, res) {
+async function deleteFood (req, res) { //deletes and item by id
   const id = req.params.id;
-  const deletedFood = await food.delete(id);
-  console.log('Item deleted: ', deletedFood)
-  // res.status(200).send('Chopped down tree');
+  console.log('Item deleted')
+  res.status(200).json(await food.delete(id));
 }
-
-mongoose.disconnect();
 
 module.exports = router;
