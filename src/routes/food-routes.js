@@ -27,6 +27,7 @@ async function getFood (req, res) { //gets all items from db
 async function getOneFood (req, res) { //gets one item from db by id
   const id = req.params.id;
   console.log('Retrieved one item ', id);
+  //console.log('food.get from db: ', await food.get(id));
   res.status(200).json(await food.get(id));
 }
 

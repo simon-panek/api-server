@@ -10,6 +10,7 @@ class FoodCollection { //create class
 
   get(_id) { //create a method called get to retrieve one or all records
     if(_id) {
+      // console.log('this.model.findOne: ', this.model.findOne({_id}));
       return this.model.findOne({_id});
     } else {
       console.log('inside get food-collection', _id);
