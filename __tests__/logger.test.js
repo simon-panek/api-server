@@ -18,7 +18,7 @@ describe ('logger middleware', () => { //sets up the logger test
     consoleSpy.mockRestore();
   });
   
-  it ('properly logs some output', () => {
+  it ('4. properly logs some output', () => {
     loggerMiddleware(req, res, next);
     expect(consoleSpy).toHaveBeenCalled();
   })
